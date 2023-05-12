@@ -32,7 +32,8 @@ update_server() {
         echo "An error occurred while updating the package list. Please check your network connection and try again."
         return 1
     fi
-upgrade_server() {}
+}
+upgrade_server() {
     echo "Upgrading packages..."
     sudo apt upgrade -y
     if [ $? -ne 0 ]; then
@@ -273,10 +274,7 @@ read -p "Your choice: " choice
 }
 
 
-Autonomy() {
-
-
-}
+#Autonomy() {}
 
 # Main function to display a menu to the user
 # Filename to store task status
