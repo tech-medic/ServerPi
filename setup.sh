@@ -6,18 +6,23 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
-display_network_info {
-  # Get IP address, netmask and gateway for eth0
-  IP=$(ip -o -4 addr show eth0 | awk '{print $4}')
+display_network_info() {
+  # Get the active network device
+  NET_DEVICE=$(ip route | grep default | awk '{print $5}')
+
+  # Get IP address and gateway for the active network device
+  IP=$(ip -o -4 addr show ${NET_DEVICE} | awk '{print $4}')
   GATEWAY=$(ip route | awk '/default/ { print $3 }')
 
   # Display the information
+  echo "Network Device: $NET_DEVICE"
   echo "IP address: $IP"
   echo "Gateway: $GATEWAY"
 
   # Ask the user to press enter to continue
   read -p "Press enter to continue"
 }
+
 
 # Perform package update
 update_server() {
@@ -220,11 +225,11 @@ enable_auto_updates() {
 install_package() {
     echo "**************************** Apt Packages *****************************"
     echo "1) Upgrade all packages"
-    echo "2) Figlet"
-    echo "3) Cowsay"
-    echo "4) Fortune"
+    echo "2) Figlet/Cowsay/Fortune"
+    echo "3) "
+    echo "4) "
     echo "5) nmap"
-    echo "6) Googler"
+    echo "6) "
     echo "7) Boxes"
     echo "8) Shred"
     echo "9) Package 4"
